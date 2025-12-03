@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <form id="form">
+    <label>Latitude: <input type="text" id="lat"></label><br>
+    <label>Longitude: <input type="text" id="lng"></label><br>
+    <label>Description: <input type="text" id="description"></label><br>
+    <button type="submit">submit</button>
+  </form>
+
+  <pre id="output"></pre>
+
+  <script>
+    const form = document.getElementById("form");
+    const output = document.getElementById("output");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const body = {
+        lat: parseFloat(document.getElementById("lat").value),
+        lng: parseFloat(document.getElementById("lng").value),
+        description: document.getElementById("description").value
+      };
+
+      const res = await fetch("http://localhost:4000/points", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+
+      const data = await res.json();
+      output.textContent = JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>
